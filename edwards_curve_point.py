@@ -24,13 +24,19 @@ class EdwardsCurvePoint(SchemeMorphism_point_abelian_variety_field):
             y3 = (y1*y2 - x1*x2)/(1-temp) 
         return E([x3, y3, 1], check=False)
     def _lmul_(self, c):
+        inverse = False
+        if c < 0:
+            c *= -1
+            inverse = True
+        c = c % self.order()        
+        bin_c = Integer(c).binary() #taking care of negative c
         Q = self.curve()(0)
-       # c = c % self.order()
-        bin_c = Integer(c).binary() #take mod(order(self)); taking care of negative c
         for i in range(len(bin_c)):
             Q = Q+Q
             if bin_c[i] == '1':
                 Q += self
+        if inverse:
+            Q = self.curve()( (-1*Q[0],Q[1],Q[2]), check = False )
         return Q
     def __nonzero__(self):
         return not(( not bool(self[0]) ) and (self[1] == self[2]) )
