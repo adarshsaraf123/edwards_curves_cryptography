@@ -25,6 +25,7 @@ class EdwardsCurvePoint(SchemeMorphism_point_abelian_variety_field):
         return E([x3, y3, 1], check=False)
     def _lmul_(self, c):
         Q = self.curve()(0)
+       # c = c % self.order()
         bin_c = Integer(c).binary() #take mod(order(self)); taking care of negative c
         for i in range(len(bin_c)):
             Q = Q+Q

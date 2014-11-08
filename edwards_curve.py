@@ -36,7 +36,14 @@ class EdwardsCurve(plane_curve.ProjectiveCurve_generic):
         # super(MyEdwardsCurve,self).__init__([5,6])
         #print self.__A
     def _repr_(self):
-        return "Edwards curve defined by the equation %s over %s" %(self.f, self.base_ring())
+        s = "Edwards curve defined by x^2 + y^2 = 1 "
+        if self.get_d() != 1:
+            s += "+ %s" %self.get_d()
+        s += "x^2y^2"
+        s += " over %s" %self.base_ring() 
+        s = s.replace("+ -","- ")
+        return s
+        #return "Edwards curve defined by the equation %s over %s" %(s, self.base_ring())
     def get_d(self):
         return self.__d
     def base_ring(self):
