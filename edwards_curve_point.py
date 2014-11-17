@@ -35,7 +35,7 @@ class EdwardsCurvePoint(SchemeMorphism_point_abelian_variety_field):
             Q = Q+Q
             if bin_c[i] == '1':
                 Q += self
-        if inverse:
+        if inverse: 
             Q = self.curve()( (-1*Q[0],Q[1],Q[2]), check = False )
         return Q
     def __nonzero__(self):
