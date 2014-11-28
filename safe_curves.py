@@ -2,7 +2,7 @@ from edwards_curve import EdwardsCurve
 from sage.rings.finite_rings.constructor import GF
 
 class SafeCurve(EdwardsCurve):
-    def __init__(self, p, s, base_x, base_y, base_l):
+    def __init__(self, p, s, base_point_x, base_point_y, base_point_l):
         self._p = p
         self._K = GF(self._p)
         
@@ -11,13 +11,13 @@ class SafeCurve(EdwardsCurve):
         self._r = self._c + (1/self._c)
         self._d = - ( (self._c + 1) ** 2 ) / ( (self._c - 1) ** 2 )
         
-        self._base_x = base_x
-        self._base_y = base_y
-        self._base_l = base_l
+        self._base_point_x = base_point_x
+        self._base_point_y = base_point_y
+        self._base_point_l = base_point_l
         
         EdwardsCurve.__init__(self, self._K, self._d)
         
-        self._base_point = self((self._base_x,self._base_y))
+        self._base_point = self((self._base_point_x,self._base_point_y))
      
     def base_point(self):
         return self._base_point
@@ -25,7 +25,7 @@ class SafeCurve(EdwardsCurve):
 class CurveForTesting(SafeCurve):
     def __init__(self):
         p = 59
-        s = self._K(11)
+        s = 11
         base_x = 8
         base_y = 18
         base_l =  72
