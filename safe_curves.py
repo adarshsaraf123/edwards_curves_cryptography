@@ -1,5 +1,6 @@
 from edwards_curve import EdwardsCurve
 from sage.rings.finite_rings.constructor import GF
+from exceptions import TypeError
 
 class SafeCurve(EdwardsCurve):
     def __init__(self, p, s, base_point_x, base_point_y, base_point_l):
@@ -22,35 +23,29 @@ class SafeCurve(EdwardsCurve):
     def base_point(self):
         return self._base_point
 
-class CurveForTesting(SafeCurve):
-    def __init__(self):
-        p = 59
-        s = 11
-        base_x = 8
-        base_y = 18
-        base_l =  72
-        SafeCurve.__init__(self, p, s, base_x, base_y, base_l)    
-   
-
-class Curve1174(EdwardsCurve):
-    def __init__(self):
-        self._p = 2**251 - 9
-        self._K = GF(self._p)
+def Curve1174():
+    p = 2**251 - 9
+    s = 1806494121122717992522804053500797229648438766985538871240722010849934886421
+    base_x = 1582619097725911541954547006453739763381091388846394833492296309729998839514
+    base_y = 3037538013604154504764115728651437646519513534305223422754827055689195992590
+    base_l =  904625697166532776746648320380374280092339035279495474023489261773642975601
+    return SafeCurve(p, s, base_x, base_y, base_l)    
         
-        self._s = self._K(1806494121122717992522804053500797229648438766985538871240722010849934886421)
-        self._d = self._K(-1174)
-        self._base_x = self._K(1582619097725911541954547006453739763381091388846394833492296309729998839514)
-        self._base_y = self._K(3037538013604154504764115728651437646519513534305223422754827055689195992590)
-        self._l =  904625697166532776746648320380374280092339035279495474023489261773642975601
-        
-        
-        EdwardsCurve.__init__(self, self._K, self._d)
-        
-        self._base_point = self((self._base_x,self._base_y))
-    
-    def base_point(self):
-        return self._base_point
-
+        #=======================================================================
+        # self._p = 2**251 - 9
+        # self._K = GF(self._p)
+        # 
+        # self._s = self._K(1806494121122717992522804053500797229648438766985538871240722010849934886421)
+        # self._d = self._K(-1174)
+        # self._base_x = self._K(1582619097725911541954547006453739763381091388846394833492296309729998839514)
+        # self._base_y = self._K(3037538013604154504764115728651437646519513534305223422754827055689195992590)
+        # self._l =  904625697166532776746648320380374280092339035279495474023489261773642975601
+        # 
+        # 
+        # EdwardsCurve.__init__(self, self._K, self._d)
+        # 
+        # self._base_point = self((self._base_x,self._base_y))
+        #=======================================================================
         
 class Curve25519(EdwardsCurve):
     def __init__(self):
