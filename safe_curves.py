@@ -1,9 +1,10 @@
 from edwards_curve import EdwardsCurve
 from sage.rings.finite_rings.constructor import GF
-from exceptions import TypeError
 
 class SafeCurve(EdwardsCurve):
-    def __init__(self, p, s, base_point_x, base_point_y, base_point_l):
+    def __init__(self, p, s, base_point_x = 0, base_point_y = 1, base_point_l = 0):
+        """Current implementation only for prime fields
+        """
         self._p = p
         self._K = GF(self._p)
         

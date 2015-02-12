@@ -1,5 +1,8 @@
 from sage.schemes.projective.projective_point import SchemeMorphism_point_abelian_variety_field
 from sage.rings.integer import Integer
+import sage.rings.all as rings
+oo = rings.infinity
+
 class EdwardsCurvePoint(SchemeMorphism_point_abelian_variety_field):
     def __init__(self, curve, v, check = True):
         point_homset = curve.point_homset()
@@ -56,6 +59,10 @@ class EdwardsCurvePoint(SchemeMorphism_point_abelian_variety_field):
                 break
             i += 1
         return self._order
+    def has_finite_order(self):
+        if self.is_zero():
+            return True
+        return self.order() != oo
     def weierstrass_point(self):
         try:
             return self.__weierstrass_point
