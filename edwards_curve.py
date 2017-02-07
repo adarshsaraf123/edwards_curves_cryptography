@@ -3,7 +3,7 @@
 import sage.schemes.projective.projective_space as projective_space
 from sage.all import QQ
 import sage.schemes.plane_curves.projective_curve as plane_curve
-from edwards_curve_point import EdwardsCurvePoint
+from sage.schemes.elliptic_curves.edwards_curve_point import EdwardsCurvePoint
 import sage.rings.all as rings
 from sage.structure.sequence import Sequence
 from sage.rings.arith import is_square
@@ -12,11 +12,22 @@ from sage.functions.other import sqrt
 from sage.sets.set import Set
 from sage.categories.morphism import Morphism
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
-from __builtin__ import list
 from sage.categories import homset
 #Q = RationalField()
-def is_EdwardsCurve(E):
-    return isinstance(E, EdwardsCurve)
+def is_EdwardsCurve(x):
+    """
+    Utility function to test if ``x`` is an instance of an Elliptic Curve class.
+
+    EXAMPLES::
+
+        sage: from sage.schemes.elliptic_curves.ell_generic import is_EllipticCurve
+        sage: E = EllipticCurve([1,2,3/4,7,19])
+        sage: is_EllipticCurve(E)
+        True
+        sage: is_EllipticCurve(0)
+        False
+    """
+    return isinstance(x, EdwardsCurve)
 
 class EdwardsCurve(plane_curve.ProjectiveCurve_generic):
     Element = EdwardsCurvePoint
@@ -113,22 +124,7 @@ class EdwardsCurve(plane_curve.ProjectiveCurve_generic):
             pass
         d = self.get_d()
         self.__weierstrass_curve = EllipticCurve(self.base_ring(), [0, -(d+1), 0, -4*d, 4*d*(d+1)])
-        return self.__weierstrass_curve    
-    
-    def get_s(self):
-        s = []
-        d = self.get_d()
-        if is_square(-d):
-            c = ( 2*(d-1) + 4*sqrt(-d) ) / ( 2*(d+1) )
-            s_2 = 2/c
-            if is_square(s_2):
-                s.append(sqrt(s_2))
-            
-            c = ( 2*(d-1) - 4*sqrt(-d) ) / ( 2*(d+1) )
-            s_2 = 2/c
-            if is_square(s_2):
-                s.append(sqrt(s_2))
-        return s    
+        return self.__weierstrass_curve
         
     def zero(self):
         return self(0)
@@ -180,7 +176,7 @@ class EdwardsCurveIsogeny(Morphism):
     def __compute_E2(self):
         """An internal function that sets the codomain of the isogeny
         """
-        self.__d_cap = self.__B**8 * self.__E1.get_d()**self.__degree
+        self.__d_cap = self.__B**8 * ( self.__E1.get_d()**self.__degree )
         print self.__d_cap
         self.__E2 = EdwardsCurve(self.__base_field, self.__d_cap)
     

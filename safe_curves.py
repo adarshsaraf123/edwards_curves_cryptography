@@ -1,4 +1,4 @@
-from edwards_curve import EdwardsCurve
+from sage.schemes.elliptic_curves.edwards_curve import EdwardsCurve
 from sage.rings.finite_rings.constructor import GF
 
 class SafeCurve(EdwardsCurve):
